@@ -17,6 +17,15 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(SiliconAngleSim)
 
+# Various compiler configs
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra")
+
+# Make final release build smaller
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -s")
+endif()
+
 set(ROOTSYS "" CACHE STRING "ROOT path")
 
 # Tell CMake where to find the ROOT installation.
@@ -34,6 +43,10 @@ include(${ROOT_USE_FILE})
 # Define sources
 set(Project_Sources
     src/main.cpp
+
+    src/common/ConfigData.h
+    src/common/ConfigManager.cpp
+    src/common/Physics.cpp
 )
 
 # Create the SiliconAngleSim main executable
