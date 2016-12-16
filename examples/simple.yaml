@@ -1,0 +1,8 @@
+name: Simple Example
+
+detector:
+  fluence: 3e15
+
+simulation:
+  steps: 1000000
+  angle: 0.7853981634

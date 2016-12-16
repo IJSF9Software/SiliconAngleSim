@@ -52,6 +52,7 @@ set(Project_Sources
     src/detectors/StripSimulator.cpp
 
     src/plots/PlotDemo.cpp
+    src/plots/PlotDistribution.cpp
     src/plots/PlotStyle.cpp
 
     src/simulation/MCRunner.cpp

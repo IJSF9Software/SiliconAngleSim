@@ -25,6 +25,7 @@
 
 #include "../common/ConfigData.h"
 #include "../detectors/StripSimulator.h"
+#include "../plots/PlotDistribution.h"
 
 #include "MCRunner.h"
 #include "Results.h"
@@ -122,7 +123,7 @@ void MCRunner::calculateVariation(double variation1,
         name += "_" + std::to_string(variation3);
     }
 
-    TDirectory *folder;
+    TDirectory *folder = 0;
     if (name.size()) {
         folder = !_config->fields ? _file->GetDirectory(name.c_str()) : _file->mkdir(name.c_str());
         if (folder)
@@ -131,7 +132,7 @@ void MCRunner::calculateVariation(double variation1,
 
     _sim->resetRandom();
 
-    if (variation1 != -1 && _config->fields) {
+    if (_config->fields) {
         _sim->initDetector();
     }
 
@@ -146,9 +147,9 @@ void MCRunner::calculateVariation(double variation1,
         if (_file && !_config->demo)
             initialSignal->Write();
     } else if (!_config->fields && _config->events) {
-        initialSignal = folder ? (TH1D *)folder->Get("initial") : 0;
+        initialSignal = folder ? (TH1D *)folder->Get(_config->demo ? "demo_initial" : "initial") : (TH1D *)_file->Get(_config->demo ? "demo_initial" : "initial");
         if (!initialSignal) {
-            std::cerr << "error calculating events: no initial signal available for variation" << std::endl;
+            std::cerr << "error calculating events: no initial signal available for variation " << name << std::endl;
             return;
         }
     }
@@ -202,4 +203,10 @@ void MCRunner::calculateVariation(double variation1,
     delete positionWeighted;
     delete positionBinaryAll;
     delete positionWeightedAll;
+
+    // Plot distributions for each variation
+    TDirectory *plots = folder ? folder->GetDirectory("plots") : _file->GetDirectory("plots");
+    if (!plots)
+        plots = folder ? folder->mkdir("plots") : _file->mkdir("plots");
+    PlotDistribution distribution(_config, _file, plots);
 }

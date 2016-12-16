@@ -32,11 +32,7 @@ StripDetector::StripDetector(ConfigData *config)
       _pitch(config->detectorPitch),
       _thickness(config->detectorThickness),
       _electrodeWidth(config->detectorStripWidth),
-      _electrodeDepth(config->detectorStripHeight)
-{
-    if (config->variation1 == ConfigVariation::None)
-        initDetector();
-}
+      _electrodeDepth(config->detectorStripHeight) { }
 
 void StripDetector::initDetector()
 {

@@ -16,6 +16,8 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <iostream>
+
 #include <TCanvas.h>
 #include <TFile.h>
 #include <TH1D.h>
@@ -29,6 +31,12 @@
 PlotDemo::PlotDemo(ConfigData *config,
                    TFile *file)
 {
+    TH1D *plot = (TH1D *)file->Get("demo_ratio");
+    if (!plot) {
+        std::cerr << "error plotting: no calculated events" << std::endl;
+        exit(3);
+    }
+
     TDirectory *folder = file->GetDirectory("plots");
     if (!folder)
         folder = file->mkdir("plots");
@@ -40,14 +48,13 @@ PlotDemo::PlotDemo(ConfigData *config,
     PlotStyle::Canvas(c1);
     PlotStyle::Legend(legend);
 
-    TH1D *plot;
-
     plot = (TH1D *)file->Get("demo_initial");
     PlotStyle::Histogram(plot);
     plot->Scale(1e-3);
     plot->SetLineStyle(3);
     plot->SetXTitle("x [#mum]");
     plot->SetYTitle("signal [1000 e_{0}]");
+    plot->GetYaxis()->SetTitleOffset(0.75);
     plot->SetMinimum(-0.8);
     plot->SetMaximum(8.400);
     plot->DrawCopy("HIST");
@@ -73,7 +80,6 @@ PlotDemo::PlotDemo(ConfigData *config,
     if (config->plotSave)
         c1->SaveAs((config->outputPrefix + "_demo_simulation.eps").c_str());
 
-
     TCanvas *c2 = new TCanvas("plot_demo_ratio");
     PlotStyle::Canvas(c2);
 
@@ -81,6 +87,7 @@ PlotDemo::PlotDemo(ConfigData *config,
     PlotStyle::Histogram(plot);
     plot->SetXTitle("x [#mum]");
     plot->SetYTitle("signal/noise ratio");
+    plot->GetYaxis()->SetTitleOffset(0.75);
     plot->DrawCopy("HIST");
 
     TLine *threshold = new TLine(0, config->simulationThreshold, (2 * config->detectorSideStrips + 1) * config->detectorPitch, config->simulationThreshold);

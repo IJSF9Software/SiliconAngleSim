@@ -37,6 +37,7 @@ Simulation::Simulation(ConfigData *config)
 
 void Simulation::start()
 {
+    std::cout << std::endl;
     if (_config->fields || _config->events) {
         std::cout << "Calculating ";
         if (_config->fields) {
@@ -56,11 +57,18 @@ void Simulation::start()
     }
 
     if (_config->plot) {
+        std::cout << "Plotting";
+        if (_config->plotSave) {
+            std::cout << " & exporting";
+        }
+        std::cout << "..." << std::endl;
         if (_config->demo) {
             PlotDemo demo(_config, _file);
         } else {
 
         }
+    } else {
+        std::cout << "Skipping plotting..." << std::endl;
     }
 
     _file->Close();

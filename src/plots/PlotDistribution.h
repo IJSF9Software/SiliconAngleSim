@@ -16,18 +16,20 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SILICONANGLESIM_PLOTDEMO_
-#define SILICONANGLESIM_PLOTDEMO_
+#ifndef SILICONANGLESIM_PLOTDISTRIBUTION_
+#define SILICONANGLESIM_PLOTDISTRIBUTION_
 
+class TDirectory;
 class TFile;
 
 struct ConfigData;
 
-class PlotDemo
+class PlotDistribution
 {
 public:
-    PlotDemo(ConfigData *config,
-             TFile *file);
+    PlotDistribution(ConfigData *config,
+                     TFile *file,
+                     TDirectory *folder);
 };
 
-#endif // SILICONANGLESIM_PLOTDEMO_
+#endif // SILICONANGLESIM_PLOTDISTRIBUTION_
