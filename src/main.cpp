@@ -22,6 +22,7 @@
 
 #include "external/cxxopts.h"
 #include "common/ConfigManager.h"
+#include "simulation/Simulation.h"
 
 int main(int argc, char **argv)
 {
@@ -71,7 +72,8 @@ int main(int argc, char **argv)
     configuration.setEvents(events || all);
     configuration.setPlot(plot || all);
 
-    app.Run();
+    Simulation simulation(configuration.config());
+    simulation.start();
 
     return 0;
 }

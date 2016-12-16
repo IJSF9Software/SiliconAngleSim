@@ -47,6 +47,14 @@ set(Project_Sources
     src/common/ConfigData.h
     src/common/ConfigManager.cpp
     src/common/Physics.cpp
+
+    src/detectors/StripDetector.cpp
+    src/detectors/StripSimulator.cpp
+
+    src/simulation/MCRunner.cpp
+    src/simulation/Results.cpp
+    src/simulation/Simulation.cpp
+    src/simulation/Track.h
 )
 
 # Create the SiliconAngleSim main executable

@@ -45,7 +45,8 @@ enum ConfigResult {
 struct ConfigData {
     std::string name;
     std::string file;
-    std::string output;
+    std::string outputDir;
+    std::string outputFile;
 
     bool fields = false;
     bool events = false;

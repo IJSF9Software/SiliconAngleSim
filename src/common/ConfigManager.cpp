@@ -38,11 +38,12 @@ ConfigManager::ConfigManager(const std::string &file,
     size_t end = file.find_last_of(".") - start;
     _data->name = file.substr(start, end);
     _data->file = file;
-    _data->output = output;
+    _data->outputDir = output;
+    _data->outputFile = output + "/" + _data->name + ".root";
 
     std::cout << "Loading configuration: " << (config["name"] ? config["name"].as<std::string>() : _data->name)
               << " (" << file.substr(start, file.size()) << ")" << std::endl
-              << "Output directory: " << output << std::endl;
+              << "Output file: " << _data->outputFile << std::endl;
 
     if (config["demo"]) {
         _data->demo = config["demo"].as<bool>();
