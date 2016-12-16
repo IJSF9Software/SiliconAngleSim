@@ -39,7 +39,8 @@ ConfigManager::ConfigManager(const std::string &file,
     _data->name = file.substr(start, end);
     _data->file = file;
     _data->outputDir = output;
-    _data->outputFile = output + "/" + _data->name + ".root";
+    _data->outputPrefix = output + "/" + _data->name;
+    _data->outputFile = _data->outputPrefix + ".root";
 
     std::cout << "Loading configuration: " << (config["name"] ? config["name"].as<std::string>() : _data->name)
               << " (" << file.substr(start, file.size()) << ")" << std::endl
@@ -186,6 +187,11 @@ void ConfigManager::setEvents(bool events)
 void ConfigManager::setPlot(bool plot)
 {
     _data->plot = plot;
+}
+
+void ConfigManager::setPlotSave(bool save)
+{
+    _data->plotSave = save;
 }
 
 std::string ConfigManager::variationString(ConfigVariation variation)

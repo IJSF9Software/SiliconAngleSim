@@ -27,7 +27,8 @@
 int main(int argc, char **argv)
 {
     std::string config, output;
-    bool all = false, fields = false, events = false, plot = false;
+    bool all = false, fields = false, events = false, plot = false,
+         interactive = false, save = false;
 
     try {
         cxxopts::Options options("SiliconAngleSim", "SiliconAngleSim - Simulate silicon detectors for different track angles");
@@ -41,11 +42,15 @@ int main(int argc, char **argv)
             ("e,events", "generate events")
             ("p,plot", "plot results");
 
+        options.add_options("Plots")
+            ("i,interactive", "display canvases after plotting")
+            ("s,save", "save plots into file");
+
         options.parse_positional("config");
         options.parse(argc, argv);
 
         if (options.count("help")) {
-            std::cout << options.help({"", "Separate steps"}) << std::endl;
+            std::cout << options.help({"", "Separate steps", "Plots"}) << std::endl;
             exit(0);
         }
 
@@ -60,6 +65,9 @@ int main(int argc, char **argv)
         events = options.count("events");
         plot = options.count("plot");
         all = (fields && events && plot) || (!fields && !events && !plot);
+
+        interactive = options.count("interactive");
+        save = options.count("save");
     } catch (const cxxopts::OptionException &e) {
         std::cerr << "error parsing options: " << e.what() << std::endl;
         exit(1);
@@ -71,9 +79,14 @@ int main(int argc, char **argv)
     configuration.setFields(fields || all);
     configuration.setEvents(events || all);
     configuration.setPlot(plot || all);
+    configuration.setPlotSave(save);
 
     Simulation simulation(configuration.config());
     simulation.start();
+
+    if (interactive) {
+        app.Run();
+    }
 
     return 0;
 }

@@ -31,7 +31,7 @@ StripSimulator::StripSimulator(ConfigData *config)
       _config(config),
       _seed(42),
       _rnd(0),
-      _threshold(5),
+      _threshold(config->simulationThreshold),
       _trappingE(new TF1("te", "exp(-x/[0])", 0, 1)),
       _trappingH(new TF1("th", "exp(-x/[0])", 0, 1))
 {
@@ -98,10 +98,28 @@ Results *StripSimulator::calculateSimulatedTrack(TH1D *initial)
     // Calculate real signal
     TH1D *signal = (TH1D *)initial->Clone();
     signal->Multiply(landau);
+    if (_config->demo) {
+        TH1D *plot = (TH1D *)signal->Clone("demo_initial+landau");
+        plot->Write();
+        delete plot;
+    }
+
     signal->Add(noise);
+    if (_config->demo) {
+        TH1D *plot = (TH1D *)signal->Clone("demo_initial+landau+noise");
+        plot->Write();
+        delete plot;
+    }
 
     // Calculate signal/noise ratio
     signal->Scale(1.0 / _noise);
+
+    // Demo ratio
+    if (_config->demo) {
+        TH1D *plot = (TH1D *)signal->Clone("demo_ratio");
+        plot->Write();
+        delete plot;
+    }
 
     delete landau;
     delete noise;
@@ -174,6 +192,13 @@ TH1D *StripSimulator::calculateInitialTrack()
     for (int i = -_sideStrips; i <= _sideStrips; i++) {
         trackSignal->Fill(stripCenter(i), calculateTrackForStrip(i));
     }
+
+    if (_config->demo) {
+        TH1D *plot = (TH1D *)trackSignal->Clone("demo_initial");
+        plot->Write();
+        delete plot;
+    }
+
     return trackSignal;
 }
 
@@ -202,6 +227,13 @@ TH1D *StripSimulator::calculateLandauHist()
     for (int i = -_sideStrips; i <= _sideStrips; i++) {
         trackLandau->Fill(stripCenter(i), calculateLandau());
     }
+
+    if (_config->demo) {
+        TH1D *plot = (TH1D *)trackLandau->Clone("demo_landau");
+        plot->Write();
+        delete plot;
+    }
+
     return trackLandau;
 }
 
@@ -238,6 +270,12 @@ TH1D *StripSimulator::calculateNoise()
     TH1D *trackNoise = new TH1D("TN", "Track Noise", 2 * _sideStrips + 1, 0, (_sideStrips * 2 + 1) * _pitch);
     for (int i = -_sideStrips; i <= _sideStrips; i++) {
         trackNoise->Fill(stripCenter(i), _rnd->Gaus(mean, sigma));
+    }
+
+    if (_config->demo) {
+        TH1D *plot = (TH1D *)trackNoise->Clone("demo_noise");
+        plot->Write();
+        delete plot;
     }
 
     return trackNoise;

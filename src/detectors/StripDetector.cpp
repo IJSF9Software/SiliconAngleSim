@@ -16,10 +16,6 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <TCanvas.h>
-#include <TGraph.h>
-#include <TRandom3.h>
-
 #include <KDetSim/KStrip.h>
 
 #include "../common/ConfigData.h"

@@ -51,6 +51,9 @@ set(Project_Sources
     src/detectors/StripDetector.cpp
     src/detectors/StripSimulator.cpp
 
+    src/plots/PlotDemo.cpp
+    src/plots/PlotStyle.cpp
+
     src/simulation/MCRunner.cpp
     src/simulation/Results.cpp
     src/simulation/Simulation.cpp

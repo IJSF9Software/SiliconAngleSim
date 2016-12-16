@@ -16,33 +16,16 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SILICONANGLESIM_CONFIGMANAGER_
-#define SILICONANGLESIM_CONFIGMANAGER_
+#ifndef SILICONANGLESIM_PLOTDEMO_
+#define SILICONANGLESIM_PLOTDEMO_
 
-#include "ConfigData.h"
+class TFile;
 
-class ConfigManager
+class PlotDemo
 {
 public:
-    ConfigManager(const std::string &file,
-                  const std::string &output);
-
-    ConfigData *config() { return _data; }
-
-    void setFields(bool fields = true);
-    void setEvents(bool events = true);
-    void setPlot(bool plot = true);
-    void setPlotSave(bool save = true);
-
-private:
-    std::string variationString(ConfigVariation parameter);
-    ConfigVariation variationEnum(std::string parameter);
-    std::string resultString(ConfigResult result);
-    ConfigResult resultEnum(std::string result);
-
-    void outputSteps(const std::vector<double> &list);
-
-    ConfigData *_data;
+    PlotDemo(ConfigData *config,
+             TFile *file);
 };
 
-#endif // SILICONANGLESIM_CONFIGMANAGER_
+#endif // SILICONANGLESIM_PLOTDEMO_

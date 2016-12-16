@@ -143,7 +143,7 @@ void MCRunner::calculateVariation(double variation1,
     if (_config->fields) {
         initialSignal = _sim->calculateInitialTrack();
         initialSignal->SetName("initial");
-        if (_file)
+        if (_file && !_config->demo)
             initialSignal->Write();
     } else if (!_config->fields && _config->events) {
         initialSignal = folder ? (TH1D *)folder->Get("initial") : 0;

@@ -46,11 +46,13 @@ struct ConfigData {
     std::string name;
     std::string file;
     std::string outputDir;
+    std::string outputPrefix;
     std::string outputFile;
 
     bool fields = false;
     bool events = false;
     bool plot = false;
+    bool plotSave = false;
 
     bool demo = false;
 
@@ -72,6 +74,7 @@ struct ConfigData {
     long long simulationSteps = 1000;
     double simulationAngle = M_PI / 4;
     double simulationOffset = 0;
+    double simulationThreshold = 5;
 
     ConfigVariation variation1 = ConfigVariation::None;
     std::vector<double> variation1Steps;

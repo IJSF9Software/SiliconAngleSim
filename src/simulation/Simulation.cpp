@@ -21,6 +21,7 @@
 #include <TFile.h>
 
 #include "../common/ConfigData.h"
+#include "../plots/PlotDemo.h"
 
 #include "MCRunner.h"
 #include "Simulation.h"
@@ -53,4 +54,14 @@ void Simulation::start()
     } else {
         std::cout << "Skipping calculation..." << std::endl;
     }
+
+    if (_config->plot) {
+        if (_config->demo) {
+            PlotDemo demo(_config, _file);
+        } else {
+
+        }
+    }
+
+    _file->Close();
 }
