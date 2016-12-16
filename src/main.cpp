@@ -18,11 +18,11 @@
 
 #include <iostream>
 
-#include <TApplication.h>
-
 #include "external/cxxopts.h"
 #include "common/ConfigManager.h"
 #include "simulation/Simulation.h"
+
+#include "Application.h"
 
 int main(int argc, char **argv)
 {
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    TApplication app("SiliconAngleSim", &argc, argv);
+    Application app(&argc, argv, !interactive);
 
     ConfigManager configuration(config, output);
     configuration.setFields(fields || all);
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     simulation.start();
 
     if (interactive) {
-        app.Run();
+        app.run();
     }
 
     return 0;

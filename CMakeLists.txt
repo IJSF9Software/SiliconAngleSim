@@ -43,6 +43,7 @@ include(${ROOT_USE_FILE})
 # Define sources
 set(Project_Sources
     src/main.cpp
+    src/Application.cpp
 
     src/common/ConfigData.h
     src/common/ConfigManager.cpp
