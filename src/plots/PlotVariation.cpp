@@ -21,6 +21,7 @@
 #include <TFile.h>
 #include <TH1D.h>
 #include <TGraph.h>
+#include <TLegend.h>
 #include <TMultiGraph.h>
 
 #include "PlotStyle.h"
@@ -164,16 +165,55 @@ void PlotVariation::drawPlot(ConfigResult result)
             }
         }
         mg->SetMaximum(_config->tracksMax != -1 ? _config->tracksMax : 1);
+
+        if (_config->tracksLegendPosition) {
+            double lx1, lx2, ly1, ly2;
+            if (_config->tracksLegendPosition == 2 || _config->tracksLegendPosition == 3) {
+                lx1 = c->GetLeftMargin();
+                lx2 = lx1 + 0.4;
+            } else {
+                lx2 = 1 - c->GetRightMargin();
+                lx1 = lx2 - 0.4;
+            }
+            if (_config->tracksLegendPosition == 1 || _config->tracksLegendPosition == 2) {
+                ly2 = 1 - c->GetTopMargin();
+                ly1 = ly2 - (0.1 * _config->variation2Steps.size());
+            } else {
+                ly1 = c->GetBottomMargin();
+                ly2 = ly1 + (0.1 * _config->variation2Steps.size());
+            }
+            legend = c->BuildLegend(lx1, ly1, lx2, ly2);
+        }
     } else {
         if (_config->variation1 != SimulationOffset && _config->variation1 != SimulationSteps) {
             mg->SetMinimum(_config->positionMin != -1 ? _config->positionMin : -20);
             mg->SetMaximum(_config->positionMax != -1 ? _config->positionMax : 80);
+        }
+
+        if (_config->positionLegendPosition) {
+            double lx1, lx2, ly1, ly2;
+            if (_config->positionLegendPosition == 2 || _config->positionLegendPosition == 3) {
+                lx1 = c->GetLeftMargin();
+                lx2 = lx1 + 0.4;
+            } else {
+                lx2 = 1 - c->GetRightMargin();
+                lx1 = lx2 - 0.4;
+            }
+            if (_config->positionLegendPosition == 1 || _config->positionLegendPosition == 2) {
+                ly2 = 1 - c->GetTopMargin();
+                ly1 = ly2 - (0.1 * _config->variation2Steps.size());
+            } else {
+                ly1 = c->GetBottomMargin();
+                ly2 = ly1 + (0.1 * _config->variation2Steps.size());
+            }
+            legend = c->BuildLegend(lx1, ly1, lx2, ly2);
         }
     }
 
     PlotStyle::MultiGraph(mg);
     if (legend) {
         PlotStyle::Legend(legend);
+        // legend->Draw();
     }
 
     _plots->cd();

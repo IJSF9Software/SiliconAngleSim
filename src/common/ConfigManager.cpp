@@ -95,6 +95,9 @@ ConfigManager::ConfigManager(const std::string &file,
             if (tracks["max"]) {
                 _data->tracksMax = tracks["max"].as<double>();
             }
+            if (tracks["legend"]) {
+                _data->tracksLegendPosition = tracks["legend"].as<int>();
+            }
         }
         if (plot["position"]) {
             YAML::Node position = plot["position"];
@@ -103,6 +106,9 @@ ConfigManager::ConfigManager(const std::string &file,
             }
             if (position["max"]) {
                 _data->positionMax = position["max"].as<double>();
+            }
+            if (position["legend"]) {
+                _data->positionLegendPosition = position["legend"].as<int>();
             }
         }
     }

@@ -80,8 +80,10 @@ struct ConfigData {
 
     double tracksMin = -1;
     double tracksMax = -1;
+    int tracksLegendPosition = 4;
     double positionMin = -1;
     double positionMax = -1;
+    int positionLegendPosition = 2;
 
     ConfigVariation variation1 = ConfigVariation::None;
     std::vector<double> variation1Steps;
