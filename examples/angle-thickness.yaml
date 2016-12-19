@@ -1,0 +1,24 @@
+name: Angle - Thickness
+
+detector:
+  noise: 500
+  fluence: 1e15
+
+simulation:
+  steps: 1000
+
+variations:
+  - type: angle
+    start: 0
+    end: 1.0471975512
+    steps: 7
+
+  - type: thickness
+    list:
+      - 300
+      - 150
+      - 50
+
+plot:
+  tracks:
+    min: 0.94

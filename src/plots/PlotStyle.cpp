@@ -20,8 +20,10 @@
 
 #include <TCanvas.h>
 #include <TColor.h>
+#include <TGraph.h>
 #include <TH1.h>
 #include <TLegend.h>
+#include <TMultiGraph.h>
 
 #import "PlotStyle.h"
 
@@ -33,6 +35,15 @@ namespace PlotStyle
     void Canvas(TCanvas *c)
     {
         c->SetMargin(0.12, 0.01, 0.13, 0.02);
+    }
+
+    void Graph(TGraph *graph,
+               int index)
+    {
+        graph->SetMarkerStyle(markers[index]);
+        graph->SetLineColor(colors[index]);
+        graph->SetMarkerColor(colors[index]);
+        graph->SetFillColor(0);
     }
 
     void Histogram(TH1 *plot)
@@ -51,5 +62,16 @@ namespace PlotStyle
     void Legend(TLegend *legend)
     {
         legend->SetTextSize(0.05);
+    }
+
+    void MultiGraph(TMultiGraph *plot)
+    {
+        plot->SetTitle("");
+
+        float size = 0.065;
+        plot->GetXaxis()->SetLabelSize(size);
+        plot->GetXaxis()->SetTitleSize(size);
+        plot->GetYaxis()->SetLabelSize(size);
+        plot->GetYaxis()->SetTitleSize(size);
     }
 }

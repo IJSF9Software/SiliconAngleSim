@@ -55,6 +55,7 @@ set(Project_Sources
     src/plots/PlotDemo.cpp
     src/plots/PlotDistribution.cpp
     src/plots/PlotStyle.cpp
+    src/plots/PlotVariation.cpp
 
     src/simulation/MCRunner.cpp
     src/simulation/Results.cpp

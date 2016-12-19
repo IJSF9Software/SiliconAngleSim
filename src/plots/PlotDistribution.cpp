@@ -28,7 +28,8 @@
 
 PlotDistribution::PlotDistribution(ConfigData *config,
                                    TFile *file,
-                                   TDirectory *folder)
+                                   TDirectory *folder,
+                                   std::string name)
 {
     folder->cd();
 
@@ -38,67 +39,75 @@ PlotDistribution::PlotDistribution(ConfigData *config,
 
     TCanvas *c1 = new TCanvas("plot_tracks");
     PlotStyle::Canvas(c1);
-    plot = (TH1D *)file->Get("tracks");
+    plot = (TH1D *)file->Get((name + "/" + "tracks").c_str());
     PlotStyle::Histogram(plot);
     plot->Scale(1.0 / config->simulationSteps);
-    plot->SetTitle("");
     plot->GetXaxis()->SetRangeUser(-0.5, 5.5);
     plot->SetXTitle("number of tracks");
     plot->SetYTitle("fraction");
     plot->DrawCopy("HIST");
-    c1->Show();
     c1->Write();
-    if (save)
+    if (save) {
+        c1->Show();
         c1->SaveAs((config->outputPrefix + "_distribution_tracks.eps").c_str());
+    } else {
+        delete c1;
+    }
 
     TCanvas *c2 = new TCanvas("plot_position_binary");
     PlotStyle::Canvas(c2);
     TLegend *legend2 = new TLegend(0.12, 0.8, 0.55, 0.98);
     PlotStyle::Legend(legend2);
-    plot = (TH1D *)file->Get("position_binary_all");
+    plot = (TH1D *)file->Get((name + "/" + "position_binary_all").c_str());
     PlotStyle::Histogram(plot);
     plot->Scale(1.0 / config->simulationSteps);
-    plot->SetTitle("");
     plot->SetXTitle("position [#mum]");
     plot->SetYTitle("fraction of events");
     plot->SetLineStyle(2);
     legend2->AddEntry(plot, "all hits");
     plot->DrawCopy("HIST");
 
-    plot = (TH1D *)file->Get("position_binary");
+    plot = (TH1D *)file->Get((name + "/" + "position_binary").c_str());
     PlotStyle::Histogram(plot);
     plot->Scale(1.0 / config->simulationSteps);
     legend2->AddEntry(plot, "with additional criteria");
     plot->DrawCopy("HIST SAME");
 
     legend2->Draw();
-    c2->Show();
     c2->Write();
-    if (save)
+    if (save) {
+        c2->Show();
         c2->SaveAs((config->outputPrefix + "_distribution_position_binary.eps").c_str());
+    } else {
+        delete legend2;
+        delete c2;
+    }
 
     TCanvas *c3 = new TCanvas("plot_position_comparison");
     PlotStyle::Canvas(c3);
     TLegend *legend3 = new TLegend(0.12, 0.8, 0.4, 0.98);
     PlotStyle::Legend(legend3);
-    plot = (TH1D *)file->Get("position_binary");
+    plot = (TH1D *)file->Get((name + "/" + "position_binary").c_str());
     PlotStyle::Histogram(plot);
-    plot->SetTitle("");
     plot->SetXTitle("position [#mum]");
     plot->SetYTitle("fraction of events");
     plot->SetLineStyle(2);
     legend3->AddEntry(plot, "binary");
     plot->DrawCopy("HIST");
 
-    plot = (TH1D *)file->Get("position_weighted");
+    plot = (TH1D *)file->Get((name + "/" + "position_weighted").c_str());
     PlotStyle::Histogram(plot);
     plot->Scale(1.0 / config->simulationSteps);
     legend3->AddEntry(plot, "weighted");
     plot->DrawCopy("HIST SAME");
 
     legend3->Draw();
-    c3->Show();
     c3->Write();
-    if (save)
+    if (save) {
+        c3->Show();
         c3->SaveAs((config->outputPrefix + "_distribution_position_comparison.eps").c_str());
+    } else {
+        delete legend3;
+        delete c3;
+    }
 }

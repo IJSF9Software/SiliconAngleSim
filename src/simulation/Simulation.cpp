@@ -22,6 +22,7 @@
 
 #include "../common/ConfigData.h"
 #include "../plots/PlotDemo.h"
+#include "../plots/PlotVariation.h"
 
 #include "MCRunner.h"
 #include "Simulation.h"
@@ -65,7 +66,7 @@ void Simulation::start()
         if (_config->demo) {
             PlotDemo demo(_config, _file);
         } else {
-
+            PlotVariation variation(_config, _file);
         }
     } else {
         std::cout << "Skipping plotting..." << std::endl;

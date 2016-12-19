@@ -23,8 +23,6 @@
 
 #include "Physics.h"
 
-using namespace std;
-
 double Physics::mass(Particle particle)
 {
     switch (particle) {

@@ -39,7 +39,9 @@ enum ConfigResult {
     All,
     TrackCount,
     PositionBinary,
-    PositionWeighted
+    PositionBinaryStdDeviation,
+    PositionWeighted,
+    PositionWeightedStdDeviation
 };
 
 struct ConfigData {
@@ -75,6 +77,11 @@ struct ConfigData {
     double simulationAngle = M_PI / 4;
     double simulationOffset = 0;
     double simulationThreshold = 5;
+
+    double tracksMin = -1;
+    double tracksMax = -1;
+    double positionMin = -1;
+    double positionMax = -1;
 
     ConfigVariation variation1 = ConfigVariation::None;
     std::vector<double> variation1Steps;

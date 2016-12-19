@@ -85,6 +85,28 @@ ConfigManager::ConfigManager(const std::string &file,
         }
     }
 
+    if (config["plot"] && config["plot"].IsMap()) {
+        YAML::Node plot = config["plot"];
+        if (plot["tracks"] && plot["tracks"].IsMap()) {
+            YAML::Node tracks = plot["tracks"];
+            if (tracks["min"]) {
+                _data->tracksMin = tracks["min"].as<double>();
+            }
+            if (tracks["max"]) {
+                _data->tracksMax = tracks["max"].as<double>();
+            }
+        }
+        if (plot["position"]) {
+            YAML::Node position = plot["position"];
+            if (position["min"]) {
+                _data->positionMin = position["min"].as<double>();
+            }
+            if (position["max"]) {
+                _data->positionMax = position["max"].as<double>();
+            }
+        }
+    }
+
     if (config["variations"] && config["variations"].IsSequence()) {
         YAML::Node variations = config["variations"];
         for (std::size_t i = 0; i < variations.size(); i++) {

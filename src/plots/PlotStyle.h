@@ -20,14 +20,19 @@
 #define SILICONANGLESIM_PLOTSTYLE_
 
 class TCanvas;
+class TGraph;
 class TH1;
 class TLegend;
+class TMultiGraph;
 
 namespace PlotStyle
 {
     void Canvas(TCanvas *c);
+    void Graph(TGraph *graph,
+               int index);
     void Histogram(TH1 *plot);
     void Legend(TLegend *legend);
+    void MultiGraph(TMultiGraph *plot);
 }
 
 #endif // SILICONANGLESIM_PLOTSTYLE_

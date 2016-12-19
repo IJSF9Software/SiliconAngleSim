@@ -19,6 +19,8 @@
 #ifndef SILICONANGLESIM_PLOTDISTRIBUTION_
 #define SILICONANGLESIM_PLOTDISTRIBUTION_
 
+#include <string>
+
 class TDirectory;
 class TFile;
 
@@ -29,7 +31,8 @@ class PlotDistribution
 public:
     PlotDistribution(ConfigData *config,
                      TFile *file,
-                     TDirectory *folder);
+                     TDirectory *folder,
+                     std::string name = "");
 };
 
 #endif // SILICONANGLESIM_PLOTDISTRIBUTION_

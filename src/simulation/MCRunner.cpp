@@ -208,5 +208,5 @@ void MCRunner::calculateVariation(double variation1,
     TDirectory *plots = folder ? folder->GetDirectory("plots") : _file->GetDirectory("plots");
     if (!plots)
         plots = folder ? folder->mkdir("plots") : _file->mkdir("plots");
-    PlotDistribution distribution(_config, _file, plots);
+    PlotDistribution distribution(_config, _file, plots, name);
 }
