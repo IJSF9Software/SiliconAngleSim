@@ -14,31 +14,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-project(SiliconAngleSim)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
-# Various compiler configs
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra")
+set(CMAKE_MODULE_PATH
+    ${CMAKE_SOURCE_DIR}/config
+)
 
-# Make final release build smaller
-if(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -s")
-endif()
+include(ParseVersion)
 
-set(ROOTSYS "" CACHE STRING "ROOT path")
+project(SiliconAngleSim VERSION ${SiliconAngleSim_VERSION})
 
-# Tell CMake where to find the ROOT installation.
-# This requires ROOT built with CMake.
-list(APPEND CMAKE_PREFIX_PATH ${ROOTSYS})
+INCLUDE(GNUInstallDirs)
+include(CompilerConfig)
+include(ROOT)
 
-# Locate the ROOT and yaml-cpp dependencies
-find_package(ROOT REQUIRED)
+# Locate dependencies
 find_package(yaml-cpp REQUIRED)
-# find_package(KDetSim REQUIRED)
+find_package(KDetSim REQUIRED)
 
-# Define ROOT functions and macros
-include(${ROOT_USE_FILE})
+# Include dependencies headers
+include_directories(${YAML_CPP_INCLUDE_DIR})
 
 # Define sources
 set(Project_Sources
@@ -66,3 +61,8 @@ set(Project_Sources
 # Create the SiliconAngleSim main executable
 add_executable(${PROJECT_NAME} ${Project_Sources})
 target_link_libraries(${PROJECT_NAME} ${ROOT_LIBRARIES} KDetSim yaml-cpp)
+
+# Install SiliconAngleSim
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
