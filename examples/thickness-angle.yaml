@@ -1,0 +1,25 @@
+name: Tickness - Angle
+
+detector:
+  noise: 500
+  fluence: 5e15
+
+simulation:
+  steps: 100000
+
+variations:
+  - type: thickness
+    start: 300
+    end: 50
+    steps: 11
+
+  - type: angle
+    start: 0
+    end: 1.0471975512
+    steps: 4
+
+plot:
+  tracks:
+    min: 0.6
+  position:
+    max: 150

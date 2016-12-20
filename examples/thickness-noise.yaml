@@ -1,0 +1,26 @@
+name: Tickness - Noise (pi/4)
+
+detector:
+  fluence: 1e15
+
+simulation:
+  steps: 100000
+  angle: 0.7853981634
+
+variations:
+  - type: thickness
+    start: 300
+    end: 50
+    steps: 11
+
+  - type: noise
+    list:
+      - 200
+      - 300
+      - 500
+      - 1000
+      - 1500
+
+plot:
+  position-error:
+    max: 150

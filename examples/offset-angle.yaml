@@ -1,0 +1,19 @@
+name: Offset - Angle
+
+detector:
+  noise: 200
+  fluence: 0
+
+simulation:
+  steps: 100000
+
+variations:
+  - type: offset
+    start: -0.9
+    end: 0.9
+    steps: 19
+
+  - type: angle
+    start: 0.5235987756
+    end: 0.872664626
+    steps: 3

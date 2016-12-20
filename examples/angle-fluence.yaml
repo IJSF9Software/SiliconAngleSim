@@ -1,0 +1,26 @@
+name: Angle - Fluence
+
+detector:
+  noise: 500
+
+simulation:
+  steps: 100000
+
+variations:
+  - type: angle
+    start: 0
+    end: 1.0471975512
+    steps: 7
+
+  - type: fluence
+    list:
+      - 5e14
+      - 1e15
+      - 2e15
+      - 5e15
+
+plot:
+  tracks:
+    legend: 3
+  position:
+    max: 150

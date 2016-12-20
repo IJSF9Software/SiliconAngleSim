@@ -1,0 +1,26 @@
+name: Tickness - Fluence
+
+detector:
+  noise: 500
+
+simulation:
+  steps: 100000
+  angle: 0.7853981634
+
+variations:
+  - type: thickness
+    start: 300
+    end: 50
+    steps: 11
+
+  - type: fluence
+    list:
+      - 5e14
+      - 1e15
+      - 2e15
+      - 5e15
+
+plot:
+  tracks:
+    min: 0.93
+    legend: 3

@@ -1,0 +1,26 @@
+name: Angle - Noise
+
+simulation:
+  steps: 100000
+  fluence: 1e15
+
+variations:
+  - type: angle
+    start: 0
+    end: 1.0471975512
+    steps: 7
+
+  - type: noise
+    list:
+      - 200
+      - 300
+      - 500
+      - 1000
+      - 1500
+
+plot:
+  tracks:
+    min: 0.6
+    legend: 3
+  position-error:
+    max: 150
