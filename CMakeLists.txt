@@ -35,6 +35,11 @@ find_package(KDetSim REQUIRED)
 # Include dependencies headers
 include_directories(${YAML_CPP_INCLUDE_DIR})
 
+configure_file(scripts/setup_SiliconAngleSim.sh.in
+    scripts/setup_SiliconAngleSim.sh
+    @ONLY
+)
+
 # Define sources
 set(Project_Sources
     src/main.cpp
@@ -65,4 +70,9 @@ target_link_libraries(${PROJECT_NAME} ${ROOT_LIBRARIES} KDetSim yaml-cpp)
 # Install SiliconAngleSim
 install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+install(PROGRAMS
+    ${CMAKE_SOURCE_DIR}/scripts/SiliconAngleSim_batch.sh
+    ${CMAKE_BINARY_DIR}/scripts/setup_SiliconAngleSim.sh
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
