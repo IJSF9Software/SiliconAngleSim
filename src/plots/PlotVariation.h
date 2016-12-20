@@ -24,7 +24,7 @@
 class TDirectory;
 class TFile;
 
-#import "../common/ConfigData.h"
+#include "../common/ConfigData.h"
 
 class PlotVariation
 {

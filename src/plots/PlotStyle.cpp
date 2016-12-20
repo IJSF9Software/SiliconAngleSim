@@ -25,7 +25,7 @@
 #include <TLegend.h>
 #include <TMultiGraph.h>
 
-#import "PlotStyle.h"
+#include "PlotStyle.h"
 
 std::vector<int> markers = {20, 21, 22, 23, 29, 28};
 std::vector<int> colors = {TColor::GetColorDark(1), 100, TColor::GetColorDark(8), TColor::GetColorDark(9), 95, TColor::GetColorDark(6)};

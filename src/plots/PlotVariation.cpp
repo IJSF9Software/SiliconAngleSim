@@ -26,7 +26,6 @@
 
 #include "PlotStyle.h"
 #include "PlotVariation.h"
-#include "Strings.h"
 
 PlotVariation::PlotVariation(ConfigData *config,
                              TFile *file)
