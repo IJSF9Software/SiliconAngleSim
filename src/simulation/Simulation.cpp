@@ -22,6 +22,7 @@
 
 #include "../common/ConfigData.h"
 #include "../plots/PlotDemo.h"
+#include "../plots/PlotDistribution.h"
 #include "../plots/PlotVariation.h"
 
 #include "MCRunner.h"
@@ -65,6 +66,8 @@ void Simulation::start()
         std::cout << "..." << std::endl;
         if (_config->demo) {
             PlotDemo demo(_config, _file);
+        } else if (_config->variation1 == None) {
+            PlotDistribution distribution(_config, _file, 0);
         } else {
             PlotVariation variation(_config, _file);
         }

@@ -16,6 +16,8 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <iostream>
+
 #include <TCanvas.h>
 #include <TFile.h>
 #include <TH1D.h>
@@ -31,7 +33,13 @@ PlotDistribution::PlotDistribution(ConfigData *config,
                                    TDirectory *folder,
                                    std::string name)
 {
+    if (!folder) {
+        folder = file->GetDirectory("plots");
+        if (!folder)
+            folder = file->mkdir("plots");
+    }
     folder->cd();
+    folder->Delete("*;*");
 
     bool save = config->variation1 == ConfigVariation::None && config->plotSave;
 
@@ -39,7 +47,12 @@ PlotDistribution::PlotDistribution(ConfigData *config,
 
     TCanvas *c1 = new TCanvas("plot_tracks");
     PlotStyle::Canvas(c1);
-    plot = (TH1D *)file->Get((name + "/" + "tracks").c_str());
+    plot = (TH1D *)file->Get(((name.size() ? name + "/" : "") + "tracks").c_str());
+    if (!plot) {
+        std::cerr << "error plotting: no calculated events" << std::endl;
+        return;
+    }
+
     PlotStyle::Histogram(plot);
     plot->Scale(1.0 / config->simulationSteps);
     plot->GetXaxis()->SetRangeUser(-0.5, 5.5);
@@ -47,10 +60,10 @@ PlotDistribution::PlotDistribution(ConfigData *config,
     plot->SetYTitle("fraction");
     plot->DrawCopy("HIST");
     c1->Write();
+    c1->Show();
     if (save) {
-        c1->Show();
         c1->SaveAs((config->outputPrefix + "_distribution_tracks.eps").c_str());
-    } else {
+    } else if (!config->interactive) {
         delete c1;
     }
 
@@ -58,7 +71,7 @@ PlotDistribution::PlotDistribution(ConfigData *config,
     PlotStyle::Canvas(c2);
     TLegend *legend2 = new TLegend(0.12, 0.8, 0.55, 0.98);
     PlotStyle::Legend(legend2);
-    plot = (TH1D *)file->Get((name + "/" + "position_binary_all").c_str());
+    plot = (TH1D *)file->Get(((name.size() ? name + "/" : "") + "position_binary_all").c_str());
     PlotStyle::Histogram(plot);
     plot->Scale(1.0 / config->simulationSteps);
     plot->SetXTitle("position [#mum]");
@@ -67,7 +80,7 @@ PlotDistribution::PlotDistribution(ConfigData *config,
     legend2->AddEntry(plot, "all hits");
     plot->DrawCopy("HIST");
 
-    plot = (TH1D *)file->Get((name + "/" + "position_binary").c_str());
+    plot = (TH1D *)file->Get(((name.size() ? name + "/" : "") + "position_binary").c_str());
     PlotStyle::Histogram(plot);
     plot->Scale(1.0 / config->simulationSteps);
     legend2->AddEntry(plot, "with additional criteria");
@@ -75,10 +88,10 @@ PlotDistribution::PlotDistribution(ConfigData *config,
 
     legend2->Draw();
     c2->Write();
+    c2->Show();
     if (save) {
-        c2->Show();
         c2->SaveAs((config->outputPrefix + "_distribution_position_binary.eps").c_str());
-    } else {
+    } else if (!config->interactive) {
         delete legend2;
         delete c2;
     }
@@ -87,7 +100,7 @@ PlotDistribution::PlotDistribution(ConfigData *config,
     PlotStyle::Canvas(c3);
     TLegend *legend3 = new TLegend(0.12, 0.8, 0.4, 0.98);
     PlotStyle::Legend(legend3);
-    plot = (TH1D *)file->Get((name + "/" + "position_binary").c_str());
+    plot = (TH1D *)file->Get(((name.size() ? name + "/" : "") + "position_binary").c_str());
     PlotStyle::Histogram(plot);
     plot->SetXTitle("position [#mum]");
     plot->SetYTitle("fraction of events");
@@ -95,7 +108,7 @@ PlotDistribution::PlotDistribution(ConfigData *config,
     legend3->AddEntry(plot, "binary");
     plot->DrawCopy("HIST");
 
-    plot = (TH1D *)file->Get((name + "/" + "position_weighted").c_str());
+    plot = (TH1D *)file->Get(((name.size() ? name + "/" : "") + "position_weighted").c_str());
     PlotStyle::Histogram(plot);
     plot->Scale(1.0 / config->simulationSteps);
     legend3->AddEntry(plot, "weighted");
@@ -103,10 +116,10 @@ PlotDistribution::PlotDistribution(ConfigData *config,
 
     legend3->Draw();
     c3->Write();
+    c3->Show();
     if (save) {
-        c3->Show();
         c3->SaveAs((config->outputPrefix + "_distribution_position_comparison.eps").c_str());
-    } else {
+    } else if (!config->interactive) {
         delete legend3;
         delete c3;
     }

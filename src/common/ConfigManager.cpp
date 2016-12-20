@@ -222,6 +222,11 @@ void ConfigManager::setPlotSave(bool save)
     _data->plotSave = save;
 }
 
+void ConfigManager::setInteractive(bool interactive)
+{
+    _data->interactive = interactive;
+}
+
 std::string ConfigManager::variationString(ConfigVariation variation)
 {
     switch (variation) {

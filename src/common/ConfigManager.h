@@ -34,6 +34,8 @@ public:
     void setPlot(bool plot = true);
     void setPlotSave(bool save = true);
 
+    void setInteractive(bool interactive = true);
+
 private:
     std::string variationString(ConfigVariation parameter);
     ConfigVariation variationEnum(std::string parameter);

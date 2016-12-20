@@ -56,6 +56,7 @@ struct ConfigData {
     bool plot = false;
     bool plotSave = false;
 
+    bool interactive = false;
     bool demo = false;
 
     bool detectorDiffusion = true;

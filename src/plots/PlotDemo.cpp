@@ -41,6 +41,7 @@ PlotDemo::PlotDemo(ConfigData *config,
     if (!folder)
         folder = file->mkdir("plots");
     folder->cd();
+    folder->Delete("*;*");
 
     TCanvas *c1 = new TCanvas("plot_demo_simulation");
     TLegend *legend = new TLegend(0.72, 0.65, 0.99, 0.98);
@@ -60,14 +61,14 @@ PlotDemo::PlotDemo(ConfigData *config,
     plot->DrawCopy("HIST");
     legend->AddEntry(plot, "#splitline{initial}{signal}");
 
-    plot = (TH1D *)file->Get("demo_initial+landau");
+    plot = (TH1D *)file->Get("demo_initial_landau");
     PlotStyle::Histogram(plot);
     plot->Scale(1e-3);
     plot->SetLineStyle(2);
     plot->DrawCopy("HIST SAME");
     legend->AddEntry(plot, "+ e-h pairs");
 
-    plot = (TH1D *)file->Get("demo_initial+landau+noise");
+    plot = (TH1D *)file->Get("demo_initial_landau_noise");
     PlotStyle::Histogram(plot);
     plot->Scale(1e-3);
     plot->SetLineStyle(1);

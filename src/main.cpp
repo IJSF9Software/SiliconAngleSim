@@ -80,6 +80,7 @@ int main(int argc, char **argv)
     configuration.setEvents(events || all);
     configuration.setPlot(plot || all);
     configuration.setPlotSave(save);
+    configuration.setInteractive(interactive);
 
     Simulation simulation(configuration.config());
     simulation.start();

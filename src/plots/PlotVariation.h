@@ -32,14 +32,14 @@ public:
     PlotVariation(ConfigData *config,
                   TFile *file);
 
-    void process();
+    bool process();
     void draw();
     void drawPlot(ConfigResult result);
 
 private:
-    void writeTracks(std::string folder);
-    void writePositionBinary(std::string folder);
-    void writePositionWeighted(std::string folder);
+    bool writeTracks(std::string folder);
+    bool writePositionBinary(std::string folder);
+    bool writePositionWeighted(std::string folder);
 
     std::string name(ConfigResult results);
     std::string axis(ConfigVariation variation);

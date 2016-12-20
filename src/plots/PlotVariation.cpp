@@ -37,30 +37,38 @@ PlotVariation::PlotVariation(ConfigData *config,
     _plots = _file->GetDirectory("plots");
     if (!_plots)
         _plots = _file->mkdir("plots");
+    _plots->Delete("*;*");
 
-    process();
-    draw();
+    if (process())
+        draw();
 }
 
-void PlotVariation::process()
+bool PlotVariation::process()
 {
+    bool valid = true;
     if (_config->variation2 != None) {
         for (size_t j = 0; j < _config->variation2Steps.size(); j++) {
             for (size_t i = 0; i < _config->variation1Steps.size(); i++) {
                 std::string folder = std::to_string(_config->variation1Steps[i]) + "_" + std::to_string(_config->variation2Steps[j]);
 
-                writeTracks(folder);
-                writePositionBinary(folder);
-                writePositionWeighted(folder);
+                valid = writeTracks(folder);
+                valid = writePositionBinary(folder);
+                valid = writePositionWeighted(folder);
+
+                if (!valid)
+                    return false;
             }
         }
     } else if (_config->variation1 != None) {
         for (size_t i = 0; i < _config->variation1Steps.size(); i++) {
             std::string folder = std::to_string(_config->variation1Steps[i]);
 
-            writeTracks(folder);
-            writePositionBinary(folder);
-            writePositionWeighted(folder);
+            valid = writeTracks(folder);
+            valid = writePositionBinary(folder);
+            valid = writePositionWeighted(folder);
+
+            if (!valid)
+                return false;
         }
     }
 
@@ -79,6 +87,8 @@ void PlotVariation::process()
             _config->variation1Steps[i] = _config->variation1Steps[i] * _config->detectorPitch;
         }
     }
+
+    return true;
 }
 
 void PlotVariation::draw()
@@ -213,7 +223,6 @@ void PlotVariation::drawPlot(ConfigResult result)
     PlotStyle::MultiGraph(mg);
     if (legend) {
         PlotStyle::Legend(legend);
-        // legend->Draw();
     }
 
     _plots->cd();
@@ -224,24 +233,42 @@ void PlotVariation::drawPlot(ConfigResult result)
         c->SaveAs((_config->outputPrefix + "_" + plot_name + ".eps").c_str());
 }
 
-void PlotVariation::writeTracks(std::string folder)
+bool PlotVariation::writeTracks(std::string folder)
 {
     TH1D *histogram = (TH1D *)_file->Get((folder + "/" + "tracks").c_str());
+    if (!histogram) {
+        std::cerr << "error plotting: no calculated events" << std::endl;
+        return false;
+    }
+
     _resultsTracks.push_back(histogram->GetBinContent(2) / histogram->Integral());
+    return true;
 }
 
-void PlotVariation::writePositionBinary(std::string folder)
+bool PlotVariation::writePositionBinary(std::string folder)
 {
     TH1D *histogram = (TH1D *)_file->Get((folder + "/" + "position_binary").c_str());
+    if (!histogram) {
+        std::cerr << "error plotting: no calculated events" << std::endl;
+        return false;
+    }
+
     _resultsPositionBinary.push_back(histogram->GetMean());
     _resultsPositionBinaryErr.push_back(histogram->GetStdDev());
+    return true;
 }
 
-void PlotVariation::writePositionWeighted(std::string folder)
+bool PlotVariation::writePositionWeighted(std::string folder)
 {
     TH1D *histogram = (TH1D *)_file->Get((folder + "/" + "position_weighted").c_str());
+    if (!histogram) {
+        std::cerr << "error plotting: no calculated events" << std::endl;
+        return false;
+    }
+
     _resultsPositionWeighted.push_back(histogram->GetMean());
     _resultsPositionWeightedErr.push_back(histogram->GetStdDev());
+    return true;
 }
 
 std::string PlotVariation::name(ConfigResult results)

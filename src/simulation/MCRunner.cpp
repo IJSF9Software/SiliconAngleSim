@@ -130,6 +130,26 @@ void MCRunner::calculateVariation(double variation1,
             folder->cd();
     }
 
+    if (folder) {
+        folder->Delete("tracks;*");
+        folder->Delete("position_binary;*");
+        folder->Delete("position_weighted;*");
+        folder->Delete("position_binary;*");
+        folder->Delete("position_weighted_all;*");
+    } else {
+        _file->Delete("tracks;*");
+        _file->Delete("position_binary;*");
+        _file->Delete("position_weighted;*");
+        _file->Delete("position_binary_all;*");
+        _file->Delete("position_weighted_all;*");
+
+        _file->Delete("demo_landau;*");
+        _file->Delete("demo_noise;*");
+        _file->Delete("demo_ratio;*");
+        _file->Delete("demo_initial_landau;*");
+        _file->Delete("demo_initial_landau_noise;*");
+    }
+
     _sim->resetRandom();
 
     if (_config->fields) {
