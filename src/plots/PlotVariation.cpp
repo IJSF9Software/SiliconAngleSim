@@ -165,50 +165,49 @@ void PlotVariation::drawPlot(ConfigResult result)
     mg->GetYaxis()->SetTitle(axis(result).c_str());
 
     TLegend *legend = 0;
-    if (result == TrackCount) {
-        if (_config->tracksMin != -1) {
-            mg->SetMinimum(_config->tracksMin);
-            if (_config->tracksMin > 0.5) {
-                c->SetLeftMargin(0.14);
-                mg->GetYaxis()->SetTitleOffset(1.15);
+    if (_config->variation1 != None && _config->variation2 != None) {
+        if (result == TrackCount) {
+            if (_config->tracksMin != -1) {
+                mg->SetMinimum(_config->tracksMin);
+                if (_config->tracksMin > 0.5) {
+                    c->SetLeftMargin(0.14);
+                    mg->GetYaxis()->SetTitleOffset(1.15);
+                }
+            }
+            mg->SetMaximum(_config->tracksMax != -1 ? _config->tracksMax : 1);
+        } else if (result == PositionBinary || result == PositionWeighted) {
+            if (_config->variation1 != SimulationOffset && _config->variation1 != SimulationSteps) {
+                mg->SetMinimum(_config->positionMin != -1 ? _config->positionMin : -20);
+                mg->SetMaximum(_config->positionMax != -1 ? _config->positionMax : 80);
+            }
+        } else if (result == PositionBinaryStdDeviation || result == PositionWeightedStdDeviation) {
+            if (_config->variation1 != SimulationOffset && _config->variation1 != SimulationSteps) {
+                mg->SetMinimum(_config->positionErrorMin != -1 ? _config->positionErrorMin : -20);
+                mg->SetMaximum(_config->positionErrorMax != -1 ? _config->positionErrorMax : 80);
             }
         }
-        mg->SetMaximum(_config->tracksMax != -1 ? _config->tracksMax : 1);
 
-        if (_config->tracksLegendPosition) {
+        if ((result == TrackCount && _config->tracksLegendPosition)
+            || ((result == PositionBinary || result == PositionWeighted) && _config->positionLegendPosition)
+            || ((result == PositionBinaryStdDeviation || result == PositionWeightedStdDeviation) && _config->positionErrorLegendPosition)) {
             double lx1, lx2, ly1, ly2;
-            if (_config->tracksLegendPosition == 2 || _config->tracksLegendPosition == 3) {
+
+            bool left = result == TrackCount && (_config->tracksLegendPosition == 2 || _config->tracksLegendPosition == 3);
+            left = left || ((result == PositionBinary || result == PositionWeighted) && (_config->positionLegendPosition == 2 || _config->positionLegendPosition == 3));
+            left = left || ((result == PositionBinaryStdDeviation || result == PositionWeightedStdDeviation) && (_config->positionErrorLegendPosition == 2 || _config->positionErrorLegendPosition == 3));
+
+            bool top = result == TrackCount && (_config->tracksLegendPosition == 1 || _config->tracksLegendPosition == 2);
+            top = top || ((result == PositionBinary || result == PositionWeighted) && (_config->positionLegendPosition == 1 || _config->positionLegendPosition == 2));
+            top = top || ((result == PositionBinaryStdDeviation || result == PositionWeightedStdDeviation) && (_config->positionErrorLegendPosition == 1 || _config->positionErrorLegendPosition == 2));
+
+            if (left) {
                 lx1 = c->GetLeftMargin();
                 lx2 = lx1 + 0.4;
             } else {
                 lx2 = 1 - c->GetRightMargin();
                 lx1 = lx2 - 0.4;
             }
-            if (_config->tracksLegendPosition == 1 || _config->tracksLegendPosition == 2) {
-                ly2 = 1 - c->GetTopMargin();
-                ly1 = ly2 - (0.1 * _config->variation2Steps.size());
-            } else {
-                ly1 = c->GetBottomMargin();
-                ly2 = ly1 + (0.1 * _config->variation2Steps.size());
-            }
-            legend = c->BuildLegend(lx1, ly1, lx2, ly2);
-        }
-    } else {
-        if (_config->variation1 != SimulationOffset && _config->variation1 != SimulationSteps) {
-            mg->SetMinimum(_config->positionMin != -1 ? _config->positionMin : -20);
-            mg->SetMaximum(_config->positionMax != -1 ? _config->positionMax : 80);
-        }
-
-        if (_config->positionLegendPosition) {
-            double lx1, lx2, ly1, ly2;
-            if (_config->positionLegendPosition == 2 || _config->positionLegendPosition == 3) {
-                lx1 = c->GetLeftMargin();
-                lx2 = lx1 + 0.4;
-            } else {
-                lx2 = 1 - c->GetRightMargin();
-                lx1 = lx2 - 0.4;
-            }
-            if (_config->positionLegendPosition == 1 || _config->positionLegendPosition == 2) {
+            if (top) {
                 ly2 = 1 - c->GetTopMargin();
                 ly1 = ly2 - (0.1 * _config->variation2Steps.size());
             } else {

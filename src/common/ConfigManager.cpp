@@ -111,6 +111,18 @@ ConfigManager::ConfigManager(const std::string &file,
                 _data->positionLegendPosition = position["legend"].as<int>();
             }
         }
+        if (plot["position-error"]) {
+            YAML::Node positionError = plot["position-error"];
+            if (positionError["min"]) {
+                _data->positionErrorMin = positionError["min"].as<double>();
+            }
+            if (positionError["max"]) {
+                _data->positionErrorMax = positionError["max"].as<double>();
+            }
+            if (positionError["legend"]) {
+                _data->positionErrorLegendPosition = positionError["legend"].as<int>();
+            }
+        }
     }
 
     if (config["variations"] && config["variations"].IsSequence()) {

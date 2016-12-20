@@ -85,6 +85,9 @@ struct ConfigData {
     double positionMin = -1;
     double positionMax = -1;
     int positionLegendPosition = 2;
+    double positionErrorMin = -1;
+    double positionErrorMax = -1;
+    int positionErrorLegendPosition = 2;
 
     ConfigVariation variation1 = ConfigVariation::None;
     std::vector<double> variation1Steps;
