@@ -68,6 +68,8 @@ struct ConfigData {
     int detectorSideStrips = 5;
     int detectorNoise = 500;
     double detectorFluence = 5e14;
+    double detectorAverageField = 3.0;
+    double detectorNeff = 0;
 
     Physics::Particle particle = Physics::Proton;
     double particleEnergy = 12e3;

@@ -30,8 +30,8 @@ The main nodes are:
  * `name` - configuration name
  * `demo` - run in demo mode to plot some initial plots (will force one event)
  * `detector` - detector parameters
-   (pitch, strip-width, thickness, noise, fluence, diffusion)
- * `simulation` - simulation parameters (steps, angle, offset)
+   (pitch, strip-width, thickness, noise, fluence, average-field, neff, diffusion)
+ * `simulation` - simulation parameters (steps, threshold, angle, offset)
  * `variations` - specify variations of parameters by list or equidistant steps
    (overrides previously set initial parameters)
    ```

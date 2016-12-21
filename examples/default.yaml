@@ -7,10 +7,13 @@ detector:
   thickness: 300
   noise: 500
   fluence: 5e14
+  average-field: 3
+  neff: 0
   difussion: true
 
 simulation:
   steps: 1000
+  threshold: 5
   angle: 0.7853981634
   offset: 0
 

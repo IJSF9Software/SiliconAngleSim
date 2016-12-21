@@ -27,8 +27,8 @@ StripDetector::StripDetector(ConfigData *config)
       _sideStrips(config->detectorSideStrips),
       _diff(config->detectorDiffusion),
       _sign(-1),
-      _neff(0),
-      _averageField(3),
+      _neff(config->detectorNeff),
+      _averageField(config->detectorAverageField),
       _pitch(config->detectorPitch),
       _thickness(config->detectorThickness),
       _electrodeWidth(config->detectorStripWidth),
@@ -43,10 +43,10 @@ void StripDetector::initDetector()
               << "Calculating detector fields..." << std::endl;
 
     TF3 *neff = new TF3("neff", "[0]+0*(x+y+z)", 0, 3000, 0, 3000, 0, 3000);
-    neff->SetParameter(0, _sign * _neff);
+    neff->SetParameter(0, _neff * _sign);
 
     _det = new KStrip(_pitch, _electrodeWidth, _electrodeDepth, _sideStrips * 2 + 1, _thickness);
-    _det->Voltage = _sign * _averageField * _thickness;
+    _det->Voltage = _averageField * _thickness * _sign;
     _det->SetUpVolume(2);
     _det->SetUpElectrodes();
     _det->SetBoundaryConditions();

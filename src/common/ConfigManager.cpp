@@ -67,6 +67,12 @@ ConfigManager::ConfigManager(const std::string &file,
         if (detector["fluence"]) {
             _data->detectorFluence = detector["fluence"].as<double>();
         }
+        if (detector["average-field"]) {
+            _data->detectorAverageField = detector["average-field"].as<double>();
+        }
+        if (detector["neff"]) {
+            _data->detectorNeff = detector["neff"].as<double>();
+        }
         if (detector["diffusion"]) {
             _data->detectorDiffusion = detector["diffusion"].as<bool>();
         }
@@ -76,6 +82,9 @@ ConfigManager::ConfigManager(const std::string &file,
         YAML::Node simulation = config["simulation"];
         if (simulation["steps"]) {
             _data->simulationSteps = simulation["steps"].as<long long>();
+        }
+        if (simulation["threshold"]) {
+            _data->simulationThreshold = simulation["threshold"].as<int>();
         }
         if (simulation["angle"]) {
             _data->simulationAngle = simulation["angle"].as<double>();
@@ -180,15 +189,18 @@ ConfigManager::ConfigManager(const std::string &file,
 
     std::cout << "Detector: "
               << "pitch=" << _data->detectorPitch << ", "
-              << "strip=" << _data->detectorStripWidth << ", "
+              << "strip-width=" << _data->detectorStripWidth << ", "
               << "thickness=" << _data->detectorThickness << ", "
               << "noise=" << _data->detectorNoise << ", "
               << "fluence=" << _data->detectorFluence << ", "
+              << "average-field=" << _data->detectorAverageField << ", "
+              << "neff=" << _data->detectorNeff << ", "
               << "diffusion=" << _data->detectorDiffusion
               << std::endl;
 
     std::cout << "Simulation: "
               << "steps=" << _data->simulationSteps << ", "
+              << "threshold=" << _data->simulationThreshold << ", "
               << "angle=" << _data->simulationAngle
               << std::endl;
 

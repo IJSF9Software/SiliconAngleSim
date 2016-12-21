@@ -40,8 +40,8 @@ protected:
 
     bool _diff;
     int _sign;
-    int _neff;
-    int _averageField;
+    double _neff;
+    double _averageField;
 
     int _pitch;
     int _thickness;
