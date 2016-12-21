@@ -1,0 +1,29 @@
+name: Default
+demo: false
+
+detector:
+  pitch: 80
+  strip-width: 20
+  thickness: 300
+  noise: 500
+  fluence: 5e14
+  difussion: true
+
+simulation:
+  steps: 1000
+  angle: 0.7853981634
+  offset: 0
+
+plot:
+  tracks:
+    min: -1
+    min: -1
+    legend: 4
+  position:
+    min: -1
+    min: -1
+    legend: 2
+  position-error:
+    min: -1
+    min: -1
+    legend: 2

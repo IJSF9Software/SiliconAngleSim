@@ -55,8 +55,8 @@ ConfigManager::ConfigManager(const std::string &file,
         if (detector["pitch"]) {
             _data->detectorPitch = detector["pitch"].as<int>();
         }
-        if (detector["strip"]) {
-            _data->detectorStripWidth = detector["strip"].as<int>();
+        if (detector["strip-width"]) {
+            _data->detectorStripWidth = detector["strip-width"].as<int>();
         }
         if (detector["thickness"]) {
             _data->detectorThickness = detector["thickness"].as<int>();
