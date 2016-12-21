@@ -32,14 +32,14 @@ StripDetector::StripDetector(ConfigData *config)
       _pitch(config->detectorPitch),
       _thickness(config->detectorThickness),
       _electrodeWidth(config->detectorStripWidth),
-      _electrodeDepth(config->detectorStripHeight) { }
+      _electrodeDepth(config->detectorStripHeight) {}
 
 void StripDetector::initDetector()
 {
     if (_det)
         delete _det;
 
-    std::cout << "\t"
+    std::cout << "    "
               << "Calculating detector fields..." << std::endl;
 
     TF3 *neff = new TF3("neff", "[0]", 0, 3000, 0, 3000, 0, 3000);

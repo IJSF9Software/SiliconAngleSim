@@ -239,6 +239,11 @@ void ConfigManager::setInteractive(bool interactive)
     _data->interactive = interactive;
 }
 
+void ConfigManager::setDebug(bool debug)
+{
+    _data->debug = debug;
+}
+
 std::string ConfigManager::variationString(ConfigVariation variation)
 {
     switch (variation) {

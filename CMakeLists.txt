@@ -34,6 +34,12 @@ find_package(KDetSim REQUIRED)
 
 # Include dependencies headers
 include_directories(${YAML_CPP_INCLUDE_DIR})
+include_directories(${CMAKE_BINARY_DIR}/src)
+
+configure_file(src/AppConfig.h.in
+    src/AppConfig.h
+    @ONLY
+)
 
 configure_file(scripts/setup_SiliconAngleSim.sh.in
     scripts/setup_SiliconAngleSim.sh
@@ -45,6 +51,7 @@ set(Project_Sources
     src/main.cpp
     src/Application.cpp
 
+    src/common/Common.cpp
     src/common/ConfigData.h
     src/common/ConfigManager.cpp
     src/common/Physics.cpp

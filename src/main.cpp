@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "external/cxxopts.h"
+#include "common/Common.h"
 #include "common/ConfigManager.h"
 #include "simulation/Simulation.h"
 
@@ -28,14 +29,20 @@ int main(int argc, char **argv)
 {
     std::string config, output;
     bool all = false, fields = false, events = false, plot = false,
-         interactive = false, save = false;
+         interactive = false, save = false, debug = false;
+
+    std::cout << "SiliconAngleSim" << " v" << SiliconAngleSim::version();
+    if (SiliconAngleSim::version_vcs().size())
+        std::cout << " (" << SiliconAngleSim::version_vcs() << ")";
+    std::cout << std::endl;
 
     try {
         cxxopts::Options options("SiliconAngleSim", "SiliconAngleSim - Simulate silicon detectors for different track angles");
         options.add_options()
             ("h,help", "print options")
             ("c,config", "task config", cxxopts::value<std::string>(), "FILE.yaml")
-            ("o,output", "output folder", cxxopts::value<std::string>()->default_value("."), "PATH");
+            ("o,output", "output folder", cxxopts::value<std::string>()->default_value("."), "PATH")
+            ("d,debug", "debug output - WARNING: may be quite verbose");
 
         options.add_options("Separate steps")
             ("f,fields", "calculate fields")
@@ -68,6 +75,7 @@ int main(int argc, char **argv)
 
         interactive = options.count("interactive");
         save = options.count("save");
+        debug = options.count("debug");
     } catch (const cxxopts::OptionException &e) {
         std::cerr << "error parsing options: " << e.what() << std::endl;
         exit(1);
@@ -81,6 +89,7 @@ int main(int argc, char **argv)
     configuration.setPlot(plot || all);
     configuration.setPlotSave(save);
     configuration.setInteractive(interactive);
+    configuration.setDebug(debug);
 
     Simulation simulation(configuration.config());
     simulation.start();

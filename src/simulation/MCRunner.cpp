@@ -47,7 +47,7 @@ void MCRunner::calculate()
         for (size_t k = 0; k < _config->variation3Steps.size(); k++) {
             for (size_t j = 0; j < _config->variation2Steps.size(); j++) {
                 for (size_t i = 0; i < _config->variation1Steps.size(); i++) {
-                    std::cout << "  variation " << ((k * _config->variation2Steps.size() + j) * _config->variation1Steps.size() + i + 1) << " of " << total << std::endl;
+                    std::cout << "  Variation " << ((k * _config->variation2Steps.size() + j) * _config->variation1Steps.size() + i + 1) << " of " << total << std::endl;
                     calculateVariation(_config->variation1Steps[i], _config->variation2Steps[j], _config->variation3Steps[k]);
                 }
             }
@@ -56,14 +56,14 @@ void MCRunner::calculate()
         int total = _config->variation1Steps.size() * _config->variation2Steps.size();
         for (size_t j = 0; j < _config->variation2Steps.size(); j++) {
             for (size_t i = 0; i < _config->variation1Steps.size(); i++) {
-                std::cout << "  variation " << (j * _config->variation1Steps.size() + i + 1) << " of " << total << std::endl;
+                std::cout << "  Variation " << (j * _config->variation1Steps.size() + i + 1) << " of " << total << std::endl;
                 calculateVariation(_config->variation1Steps[i], _config->variation2Steps[j]);
             }
         }
     } else if (_config->variation1 != None) {
         int total = _config->variation1Steps.size();
         for (size_t i = 0; i < _config->variation1Steps.size(); i++) {
-            std::cout << "  variation " << i + 1 << " of " << total << std::endl;
+            std::cout << "  Variation " << i + 1 << " of " << total << std::endl;
             calculateVariation(_config->variation1Steps[i]);
         }
     } else {
@@ -177,6 +177,9 @@ void MCRunner::calculateVariation(double variation1,
     if (!_config->events)
         return;
 
+    std::cout << "    "
+              << "Generating events..." << std::endl;
+
     TH1D *tracks = new TH1D("tracks", "Number of tracks", 10, -0.5, 9.5);
     TH1D *positionBinary = new TH1D("position_binary", "Position of track (binary)", positionBinCount, -positionBinRange, positionBinRange);
     TH1D *positionWeighted = new TH1D("position_weighted", "Position of track (weighted)", positionBinCount, -positionBinRange, positionBinRange);
@@ -185,7 +188,7 @@ void MCRunner::calculateVariation(double variation1,
 
     for (long long i = 0; i < _steps; i++) {
         Results *r = _sim->calculateSimulatedTrack(initialSignal);
-        if (_steps <= 100) {
+        if (_config->debug) {
             std::cout << i << ":\t";
             r->printHits();
             r->printStats();

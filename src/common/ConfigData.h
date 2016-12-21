@@ -58,6 +58,7 @@ struct ConfigData {
 
     bool interactive = false;
     bool demo = false;
+    bool debug = false;
 
     bool detectorDiffusion = true;
     int detectorPitch = 80;

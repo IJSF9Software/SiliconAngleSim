@@ -119,7 +119,6 @@ void Results::calculatePositions(ConfigData *config,
 
 void Results::printHits()
 {
-    std::cout << "hits: ";
     for (bool hit : hitsBool) {
         if (hit) {
             std::cout << "o";
@@ -133,12 +132,13 @@ void Results::printHits()
 void Results::printStats()
 {
     std::cout << "tracks: " << tracks << "\t"
-              << "position (binary): " << positionLongestBinary << "\t"
-              << "position (weighted): " << positionLongestBinary << "\t"
-              << "positions: ";
+              << "gaps: " << gaps << std::endl << "\t"
+              << "Positions:" << "\t"
+              << "binary: " << positionLongestBinary << "\t"
+              << "weighted: " << positionLongestBinary << "\t"
+              << "strips: ";
     printPositions();
-    std::cout << "\t"
-              << "gaps: " << gaps << std::endl;
+    std::cout << std::endl;
 }
 
 void Results::printPositions()

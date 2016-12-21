@@ -35,6 +35,7 @@ public:
     void setPlotSave(bool save = true);
 
     void setInteractive(bool interactive = true);
+    void setDebug(bool debug = true);
 
 private:
     std::string variationString(ConfigVariation parameter);
