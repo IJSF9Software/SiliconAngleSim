@@ -42,7 +42,7 @@ void StripDetector::initDetector()
     std::cout << "    "
               << "Calculating detector fields..." << std::endl;
 
-    TF3 *neff = new TF3("neff", "[0]", 0, 3000, 0, 3000, 0, 3000);
+    TF3 *neff = new TF3("neff", "[0]+0*(x+y+z)", 0, 3000, 0, 3000, 0, 3000);
     neff->SetParameter(0, _sign * _neff);
 
     _det = new KStrip(_pitch, _electrodeWidth, _electrodeDepth, _sideStrips * 2 + 1, _thickness);
